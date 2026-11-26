@@ -1,0 +1,89 @@
+:root {
+  --bg-color: #08080b;
+  --text-color: #e2e8f0;
+  --text-muted: #94a3b8;
+  --accent-primary: #39ff14;
+  --accent-secondary: #22c55e;
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.05);
+  --font-main: 'Outfit', sans-serif;
+  --nav-height: 70px;
+}
+
+@media (max-width: 900px) {
+  :root {
+    --nav-height: 62px;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root, .app-wrapper {
+  background-color: #000000 !important;
+  color: var(--text-color);
+  max-width: 100%;
+  overflow-x: clip;
+  overflow-y: visible;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-main);
+  min-height: 100vh;
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(57, 255, 20, 0.06) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(57, 255, 20, 0.04) 0%, transparent 40%);
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Glassmorphism utility */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  margin: 0;
+  color: #fff;
+}
+
+h1 {
+  font-size: clamp(3rem, 8vw, 6rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+h2 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  letter-spacing: -0.01em;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-color);
+}
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-primary);
+}

@@ -1,0 +1,425 @@
+.projects-reveal-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 14;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 5.2rem clamp(1.5rem, 5vw, 5rem) 1.8rem;
+  background: radial-gradient(
+    ellipse at 65% 30%,
+    rgba(16, 48, 22, 0.7) 0%,
+    rgba(4, 10, 6, 0.96) 58%,
+    #020403 100%
+  );
+  will-change: opacity, transform;
+}
+
+/* Backdrop layers */
+.projects-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.projects-silhouette-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  opacity: 0.42;
+  filter: saturate(1.2) hue-rotate(-5deg) contrast(1.15);
+  mix-blend-mode: screen;
+}
+
+.projects-globe-svg {
+  position: absolute;
+  top: -4%;
+  right: -4%;
+  width: clamp(320px, 42vw, 600px);
+  height: auto;
+  opacity: 0.72;
+  filter: drop-shadow(0 0 28px rgba(57, 255, 20, 0.32));
+  animation: globeSpinSlow 42s linear infinite;
+}
+
+@keyframes globeSpinSlow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.projects-backdrop-vignette {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 60% 45%, transparent 25%, rgba(2, 5, 3, 0.78) 80%),
+    linear-gradient(to top, rgba(2, 4, 3, 0.95) 0%, transparent 28%);
+}
+
+/* Top-left Header */
+.projects-top-header {
+  position: relative;
+  z-index: 5;
+  max-width: 440px;
+}
+
+.projects-eyebrow {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: #39ff14;
+  margin-bottom: 0.55rem;
+  text-shadow: 0 0 10px rgba(57, 255, 20, 0.45);
+}
+
+.projects-hero-title {
+  display: flex;
+  flex-direction: column;
+  line-height: 0.96;
+  margin: 0 0 0.85rem 0;
+}
+
+.projects-title-white {
+  font-size: clamp(2.2rem, 4.4vw, 3.6rem);
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+}
+
+.projects-title-green {
+  font-size: clamp(2.2rem, 4.4vw, 3.6rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, #9aff7a 0%, #39ff14 55%, #22c55e 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 18px rgba(57, 255, 20, 0.4));
+}
+
+.projects-hero-desc {
+  margin: 0 0 1rem 0;
+  font-size: clamp(0.8rem, 0.95vw, 0.92rem);
+  line-height: 1.55;
+  color: rgba(226, 232, 240, 0.78);
+}
+
+.projects-explore-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0;
+  background: none;
+  border: none;
+  color: #f8fafc;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.25s ease, transform 0.25s ease;
+}
+
+.projects-explore-btn:hover {
+  color: #39ff14;
+  transform: translateX(3px);
+}
+
+.projects-explore-circle {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1.5px solid #39ff14;
+  color: #39ff14;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 12px rgba(57, 255, 20, 0.45);
+}
+
+/* 3D Orbital Loop Stage */
+.projects-orbit-stage {
+  position: relative;
+  z-index: 4;
+  flex: 1;
+  width: 100%;
+  min-height: 290px;
+}
+
+.projects-orbit-ring {
+  position: absolute;
+  left: 50%;
+  top: 56%;
+  z-index: 3;
+  width: min(86vw, 980px);
+  height: 170px;
+  transform: translate(-50%, -50%) rotate(-3deg);
+  border-radius: 50%;
+  border: 1.5px solid rgba(57, 255, 20, 0.45);
+  box-shadow:
+    0 0 26px rgba(57, 255, 20, 0.35),
+    inset 0 0 18px rgba(57, 255, 20, 0.14);
+  pointer-events: none;
+}
+
+/* Man emerging from the center of the orbital circle */
+.projects-center-man-wrap {
+  position: absolute;
+  left: 50%;
+  bottom: -2.2rem;
+  z-index: 5;
+  height: min(74vh, 660px);
+  transform: translateX(-50%);
+  pointer-events: none;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.projects-center-man {
+  height: 100%;
+  width: auto;
+  object-fit: contain;
+  opacity: 0.94;
+  filter:
+    contrast(1.08)
+    brightness(1.06)
+    drop-shadow(0 0 26px rgba(57, 255, 20, 0.32));
+  user-select: none;
+}
+
+.orbit-project-card {
+  position: absolute;
+  left: 50%;
+  top: 54%;
+  width: clamp(200px, 21vw, 275px);
+  padding: 0.6rem;
+  border-radius: 16px;
+  border: 1.5px solid rgba(57, 255, 20, 0.38);
+  background: rgba(6, 14, 9, 0.84);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.65);
+  color: #ffffff;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+  will-change: transform, opacity;
+}
+
+.orbit-project-card--active {
+  border-color: #39ff14;
+  box-shadow:
+    0 18px 46px rgba(0, 0, 0, 0.78),
+    0 0 28px rgba(57, 255, 20, 0.35),
+    inset 0 0 16px rgba(57, 255, 20, 0.08);
+}
+
+.orbit-card-media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #040a06;
+  margin-bottom: 0.65rem;
+}
+
+.orbit-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.orbit-vault-visual {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at center, rgba(57, 255, 20, 0.18), #040906 75%);
+}
+
+.orbit-vault-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(57, 255, 20, 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(57, 255, 20, 0.12) 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
+.orbit-vault-shield {
+  position: relative;
+  width: 58px;
+  height: 58px;
+  filter: drop-shadow(0 0 14px rgba(57, 255, 20, 0.6));
+}
+
+.orbit-card-footer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0 0.2rem 0.15rem;
+}
+
+.orbit-card-title {
+  margin: 0 0 0.18rem 0;
+  font-size: 0.94rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.orbit-card-sub {
+  margin: 0;
+  font-size: 0.72rem;
+  line-height: 1.35;
+  color: rgba(226, 232, 240, 0.72);
+}
+
+.orbit-card-arrow {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ffffff;
+  opacity: 0.85;
+  flex-shrink: 0;
+}
+
+.orbit-project-card--active .orbit-card-arrow {
+  color: #39ff14;
+}
+
+/* Bottom Stats & Brand Footer */
+.projects-bottom-bar {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid rgba(57, 255, 20, 0.16);
+}
+
+.projects-stats-group {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 2.8vw, 2.6rem);
+}
+
+.projects-stat-item {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.projects-stat-item svg {
+  color: #39ff14;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 6px rgba(57, 255, 20, 0.45));
+}
+
+.projects-stat-item strong {
+  display: block;
+  font-size: 1.08rem;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.1;
+}
+
+.projects-stat-item span {
+  display: block;
+  font-size: 0.68rem;
+  color: rgba(226, 232, 240, 0.68);
+}
+
+.projects-stat-divider {
+  width: 1px;
+  height: 28px;
+  background: rgba(57, 255, 20, 0.25);
+}
+
+.projects-brand-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.projects-brand-z {
+  font-size: 1.45rem;
+  font-weight: 900;
+  font-style: italic;
+  color: #ffffff;
+  text-shadow: 0 0 10px rgba(57, 255, 20, 0.35);
+}
+
+.projects-brand-words {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.05;
+}
+
+.projects-brand-words span {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: #ffffff;
+}
+
+.projects-brand-words small {
+  font-size: 0.58rem;
+  letter-spacing: 0.24em;
+  color: rgba(226, 232, 240, 0.65);
+}
+
+@media (max-width: 900px) {
+  .projects-reveal-layer {
+    padding: 4.4rem 1.05rem 1.15rem;
+  }
+
+  .projects-top-header {
+    max-width: 100%;
+  }
+
+  .projects-title-white,
+  .projects-title-green {
+    font-size: clamp(1.75rem, 8vw, 2.4rem);
+  }
+
+  .projects-hero-desc,
+  .projects-explore-btn,
+  .projects-bottom-bar {
+    display: none;
+  }
+
+  .projects-orbit-stage {
+    min-height: 260px;
+  }
+
+  .projects-orbit-ring {
+    width: 120vw;
+    height: 110px;
+    top: 56%;
+  }
+
+  .projects-center-man-wrap {
+    height: 50vh;
+    bottom: -1.4rem;
+  }
+
+  .orbit-project-card {
+    width: min(62vw, 220px);
+    top: 54%;
+    padding: 0.48rem;
+  }
+}

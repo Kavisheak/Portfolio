@@ -1,0 +1,834 @@
+/* ================================================================
+   AboutScene.css — Cinematic Instagram About Section
+   
+   Key design: slanted perspective panel as a physical display,
+   character overlapping from front-right, neon sign behind.
+   
+   Palette:
+     Panel surface:  #19191B
+     Deep brown:     #302923
+     Warm orange:    #F58B26
+     Cream:          #E7D5C0
+     Soft white:     #F5F3EF
+================================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Satisfy&family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+
+/* ─────────────────────────────────
+   Section container
+────────────────────────────────── */
+.about-scene {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background: #0e0c0a;
+  overflow: hidden;
+  z-index: 2;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.about-scene.about-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─────────────────────────────────
+   Atmospheric glows
+────────────────────────────────── */
+.about-bg-atmosphere {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.atm-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+}
+
+.atm-glow-1 {
+  width: 700px; height: 700px;
+  right: -120px; top: -80px;
+  background: radial-gradient(circle, rgba(245,139,38,0.38) 0%, transparent 70%);
+  animation: glowDrift1 12s ease-in-out infinite alternate;
+}
+.atm-glow-2 {
+  width: 400px; height: 400px;
+  left: 25%; top: 35%;
+  background: radial-gradient(circle, rgba(245,139,38,0.10) 0%, transparent 70%);
+  animation: glowDrift2 16s ease-in-out infinite alternate;
+}
+.atm-glow-3 {
+  width: 100%; height: 350px;
+  left: 0; bottom: 0;
+  background: linear-gradient(0deg, rgba(48,41,35,0.85) 0%, transparent 100%);
+  border-radius: 0;
+  filter: none;
+}
+
+@keyframes glowDrift1 {
+  0%   { transform: translate(0,0) scale(1); opacity: 0.38; }
+  100% { transform: translate(-30px,50px) scale(1.1); opacity: 0.55; }
+}
+@keyframes glowDrift2 {
+  0%   { transform: translate(0,0) scale(1); }
+  100% { transform: translate(20px,-30px) scale(1.08); }
+}
+
+/* ─────────────────────────────────
+   Main Composition — the 3D scene stage
+────────────────────────────────── */
+.about-composition {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  min-height: 100vh;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   INSTAGRAM PANEL STAGE — perspective wrapper
+   
+   Provides the shared perspective origin for the 3D panel.
+   The panel itself is a child that gets rotated in 3D.
+═══════════════════════════════════════════════════════════ */
+.ig-panel-stage {
+  position: absolute;
+  top: 2%;
+  left: 2%;
+  width: 56%;
+  max-width: 600px;
+  bottom: 10%;
+  z-index: 4;
+
+  /* Perspective for the child panel */
+  perspective: 1600px;
+  perspective-origin: 70% 45%;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   INSTAGRAM PANEL — the large, slanted, physical display
+   
+   This is THE defining element. It must look like a giant
+   phone screen / physical display tilted in 3D space, not
+   a flat card.
+═══════════════════════════════════════════════════════════ */
+.ig-panel {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  
+  /* 3D perspective rotation — slanted like a physical display */
+  transform:
+    rotateY(8deg)
+    rotateX(0.6deg)
+    rotateZ(-0.5deg);
+  transform-style: preserve-3d;
+
+  /* Panel surface */
+  background: #19191B;
+  border-radius: 26px;
+
+  /* Physical edge: thin silver-gray border, brighter on left (light-catching edge) */
+  border: 1px solid rgba(180,180,185,0.13);
+  border-left: 2px solid rgba(200,200,205,0.20);
+  border-top: 1.5px solid rgba(200,200,205,0.16);
+
+  /* Depth and shadow */
+  box-shadow:
+    /* Contact shadow on the wall behind */
+    14px 18px 70px rgba(0,0,0,0.75),
+    8px 10px 30px rgba(0,0,0,0.55),
+    /* Very subtle orange ambient spill from neon */
+    -4px -2px 40px rgba(245,139,38,0.04),
+    /* Inner top-left highlight for glass/screen feel */
+    inset 1px 1px 0 rgba(255,255,255,0.06),
+    inset 0 0 40px rgba(0,0,0,0.35);
+
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Glass reflection highlight across the panel surface */
+.ig-panel-gloss {
+  position: absolute;
+  top: 0; left: 0;
+  width: 70%;
+  height: 45%;
+  background: linear-gradient(
+    155deg,
+    rgba(255,255,255,0.06) 0%,
+    rgba(255,255,255,0.02) 40%,
+    transparent 100%
+  );
+  border-radius: 26px 26px 0 0;
+  pointer-events: none;
+  z-index: 20;
+}
+
+/* Physical "panel edge thickness" strip on the right side */
+.ig-panel-edge {
+  position: absolute;
+  top: 10px;
+  right: -5px;
+  width: 5px;
+  height: calc(100% - 20px);
+  background: linear-gradient(180deg,
+    rgba(60,58,55,0.5) 0%,
+    rgba(40,38,36,0.7) 50%,
+    rgba(30,28,26,0.4) 100%
+  );
+  border-radius: 0 3px 3px 0;
+  transform: rotateY(-60deg);
+  transform-origin: left center;
+}
+
+/* ── Instagram Top Bar ── */
+.ig-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.2rem 0.7rem;
+  flex-shrink: 0;
+}
+
+.ig-logo {
+  font-family: 'Satisfy', cursive;
+  font-size: 1.8rem;
+  color: #F5F3EF;
+  line-height: 1;
+}
+
+.ig-topbar-icons {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: #F5F3EF;
+}
+
+.ig-topbar-icons svg {
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.ig-topbar-icons svg:hover { color: #F58B26; }
+
+.ig-divider {
+  height: 1px;
+  background: rgba(255,255,255,0.08);
+  flex-shrink: 0;
+}
+
+/* ── Profile row ── */
+.ig-profile-row {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1rem 1.2rem 0.6rem;
+  flex-shrink: 0;
+}
+
+.ig-avatar-area {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.ig-story-ring {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 180deg,
+    #f09433 0deg,
+    #e6683c 60deg,
+    #dc2743 120deg,
+    #cc2366 180deg,
+    #bc1888 240deg,
+    #f09433 360deg
+  );
+  padding: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ig-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #201e1b, #2a2724);
+  border: 3px solid #19191B;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ig-avatar-text {
+  font-family: 'Satisfy', cursive;
+  font-size: 1.7rem;
+  color: #F58B26;
+  line-height: 1;
+}
+
+.ig-plus-badge {
+  position: absolute;
+  bottom: 0; right: 0;
+  width: 22px; height: 22px;
+  background: #0095f6;
+  border-radius: 50%;
+  border: 2.5px solid #19191B;
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.ig-stats-row {
+  display: flex;
+  gap: 1.8rem;
+}
+
+.ig-stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+}
+
+.ig-stat-number {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #F5F3EF;
+}
+
+.ig-stat-text {
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.5);
+  font-weight: 400;
+}
+
+/* ── Bio section ── */
+.ig-bio-section {
+  padding: 0.3rem 1.2rem 0.5rem;
+  flex-shrink: 0;
+}
+
+.ig-bio-name-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 2px;
+}
+
+.ig-bio-name {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #F5F3EF;
+}
+
+.ig-verified { flex-shrink: 0; }
+
+.ig-bio-category {
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.45);
+  margin: 0 0 5px;
+}
+
+.ig-bio-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.ig-bio-lines p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.78);
+  line-height: 1.5;
+}
+
+.ig-bio-url {
+  display: block;
+  margin-top: 3px;
+  font-size: 0.8rem;
+  color: #4fa3e0;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.ig-bio-url:hover { color: #7cc4f0; }
+
+/* ── Pro Dashboard ── */
+.ig-pro-dashboard {
+  margin: 0.4rem 1.2rem;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 10px;
+  padding: 0.5rem 0.8rem;
+  flex-shrink: 0;
+}
+
+.ig-pro-left {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ig-pro-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #F5F3EF;
+}
+
+.ig-pro-stat {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.55);
+}
+
+/* ── Action Buttons ── */
+.ig-action-row {
+  display: flex;
+  gap: 0.4rem;
+  padding: 0.4rem 1.2rem;
+  flex-shrink: 0;
+}
+
+.ig-btn {
+  flex: 1;
+  padding: 0.38rem 0.3rem;
+  background: rgba(255,255,255,0.09);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  color: #F5F3EF;
+  font-size: 0.76rem;
+  font-weight: 600;
+  font-family: 'Outfit', sans-serif;
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+.ig-btn:hover {
+  background: rgba(245,139,38,0.12);
+  border-color: rgba(245,139,38,0.3);
+  color: #F58B26;
+}
+.ig-btn-contact { flex: 0 0 auto; padding: 0.38rem 0.8rem; }
+.ig-btn-dropdown {
+  flex: 0 0 32px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Highlights ── */
+.ig-highlights-row {
+  display: flex;
+  gap: 0.7rem;
+  padding: 0.6rem 1.2rem 0.3rem;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.ig-hl-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.ig-hl-circle {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #F58B26;
+  background: rgba(245,139,38,0.04);
+  transition: border-color 0.25s, background 0.25s, transform 0.25s;
+}
+.ig-hl-item:hover .ig-hl-circle {
+  border-color: #F58B26;
+  background: rgba(245,139,38,0.1);
+  transform: scale(1.06);
+}
+
+.ig-hl-label {
+  font-size: 0.65rem;
+  color: rgba(255,255,255,0.6);
+  font-weight: 500;
+}
+
+/* ── Content Tabs ── */
+.ig-tabs-row {
+  display: flex;
+  border-top: 1px solid rgba(255,255,255,0.07);
+  margin-top: 0.2rem;
+  flex-shrink: 0;
+}
+
+.ig-tab {
+  flex: 1;
+  padding: 0.55rem 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: rgba(255,255,255,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: color 0.2s;
+}
+.ig-tab:hover { color: rgba(255,255,255,0.6); }
+.ig-tab.active { color: #F5F3EF; }
+.ig-tab.active::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1.5px;
+  background: #F5F3EF;
+}
+
+/* ── Post Thumbnails ── */
+.ig-posts-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.ig-post-thumb {
+  aspect-ratio: 1 / 1.1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 0.6rem;
+  cursor: pointer;
+  transition: filter 0.2s;
+  overflow: hidden;
+}
+.ig-post-thumb:hover { filter: brightness(1.2); }
+
+.ig-post-l1 {
+  font-size: 0.5rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+.ig-post-l2 {
+  font-size: 0.72rem;
+  font-weight: 900;
+  color: #F5F3EF;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+.ig-post-l3 {
+  font-size: 0.72rem;
+  font-weight: 900;
+  color: #F5F3EF;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   FLOATING NOTIFICATION BADGES
+   Positioned absolutely within .about-composition
+═══════════════════════════════════════════════════════════ */
+
+/* Red heart badge — upper right of scene */
+.float-heart-1 {
+  position: absolute;
+  top: 8%;
+  right: 28%;
+  z-index: 15;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: #ff3040;
+  border-radius: 8px;
+  padding: 6px 10px;
+  box-shadow: 0 6px 20px rgba(255,48,64,0.5), 0 2px 8px rgba(0,0,0,0.4);
+  animation: floatBadge 4s ease-in-out infinite alternate;
+}
+.float-heart-1 span {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #fff;
+}
+
+/* Instagram gradient icon */
+.float-ig-icon {
+  position: absolute;
+  top: 24%;
+  right: 11%;
+  z-index: 15;
+  animation: floatBadge 5s ease-in-out 0.5s infinite alternate-reverse;
+}
+
+.float-ig-bg {
+  width: 50px; height: 50px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(220,39,67,0.45), 0 2px 8px rgba(0,0,0,0.3);
+}
+
+/* Small heart badge — left side */
+.float-heart-2 {
+  position: absolute;
+  top: 55%;
+  left: 1.5%;
+  z-index: 15;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ff3040;
+  border-radius: 7px;
+  padding: 5px 7px;
+  box-shadow: 0 4px 14px rgba(255,48,64,0.4), 0 2px 6px rgba(0,0,0,0.3);
+  animation: floatBadge 3.5s ease-in-out 1s infinite alternate;
+}
+
+@keyframes floatBadge {
+  0%   { transform: translateY(0) rotate(-2deg); }
+  100% { transform: translateY(-12px) rotate(1deg); }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   NEON SIGN — behind character, upper right wall
+   
+   Uses mix-blend-mode: screen to remove the dark image
+   background so only the glowing neon is visible.
+═══════════════════════════════════════════════════════════ */
+.neon-sign-area {
+  position: absolute;
+  top: 1%;
+  right: 1%;
+  width: 36%;
+  max-width: 420px;
+  z-index: 3;
+  pointer-events: none;
+  animation: neonPulse 3s ease-in-out infinite alternate;
+}
+
+.neon-sign-img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  /* Screen blend makes the dark bg invisible, only glow shows */
+  mix-blend-mode: screen;
+  filter: brightness(1.1) contrast(1.05);
+}
+
+@keyframes neonPulse {
+  0%   { opacity: 0.85; }
+  100% { opacity: 1; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   3D DEVELOPER CHARACTER
+   
+   Sits in FRONT of the Instagram panel, overlapping from
+   the right side. This creates the cinematic depth layering.
+═══════════════════════════════════════════════════════════ */
+.dev-character-area {
+  position: absolute;
+  bottom: 0;
+  right: 1%;
+  width: 55%;
+  max-width: 720px;
+  z-index: 8;
+  pointer-events: none;
+}
+
+.dev-character-img {
+  width: 100%;
+  height: auto;
+  max-height: 94vh;
+  object-fit: contain;
+  object-position: bottom right;
+  filter:
+    drop-shadow(0 20px 50px rgba(0,0,0,0.8))
+    drop-shadow(-8px 4px 30px rgba(0,0,0,0.5));
+}
+
+/* ═══════════════════════════════════════════════════════════
+   FOREGROUND — Desk accessories
+   
+   Uses mix-blend-mode: lighten to merge the image's dark
+   background seamlessly with the scene's dark base.
+═══════════════════════════════════════════════════════════ */
+.about-foreground {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  margin-top: -3rem;
+  pointer-events: none;
+}
+
+.fg-img {
+  width: 100%;
+  height: auto;
+  max-height: 260px;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  /* Lighten blend: dark pixels become transparent, bright objects show */
+  mix-blend-mode: lighten;
+  /* Top/bottom gradient mask for seamless edge blending */
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0,0,0,0.6) 10%,
+    rgba(0,0,0,1) 25%,
+    rgba(0,0,0,1) 70%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0,0,0,0.6) 10%,
+    rgba(0,0,0,1) 25%,
+    rgba(0,0,0,1) 70%,
+    transparent 100%
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE — Tablet (≤ 1100px)
+═══════════════════════════════════════════════════════════ */
+@media (max-width: 1100px) {
+  .ig-panel-stage {
+    width: 58%;
+    left: 1%;
+  }
+
+  .ig-panel {
+    transform: rotateY(6deg) rotateX(0.4deg) rotateZ(-0.3deg);
+  }
+
+  .neon-sign-area {
+    width: 40%;
+    top: 2%;
+  }
+
+  .dev-character-area {
+    width: 58%;
+    right: 0;
+  }
+
+  .float-heart-1 { right: 22%; }
+  .float-ig-icon  { right: 5%; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE — Mobile (≤ 768px)
+═══════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .about-scene {
+    min-height: auto;
+  }
+
+  .about-composition {
+    min-height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem 0;
+  }
+
+  .ig-panel-stage {
+    position: relative;
+    top: auto; left: auto; bottom: auto;
+    width: 100%;
+    max-width: 100%;
+    perspective: none;
+    margin-top: 1rem;
+  }
+
+  .ig-panel {
+    position: relative;
+    width: 100%;
+    height: auto;
+    transform: none;
+    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .ig-panel-edge { display: none; }
+
+  .neon-sign-area {
+    position: relative;
+    top: auto; right: auto;
+    width: 65%;
+    max-width: 260px;
+    margin: 1rem auto 0;
+    order: -2;
+  }
+
+  .dev-character-area {
+    position: relative;
+    bottom: auto; right: auto;
+    width: 75%;
+    margin: -1rem auto 0;
+    order: -1;
+  }
+
+  .dev-character-img {
+    max-height: 350px;
+  }
+
+  .float-heart-1,
+  .float-ig-icon,
+  .float-heart-2 {
+    display: none;
+  }
+
+  .fg-img {
+    max-height: 150px;
+  }
+
+  .ig-highlights-row { gap: 0.4rem; }
+  .ig-hl-circle {
+    width: 48px;
+    height: 48px;
+  }
+  .ig-hl-circle svg { width: 20px; height: 20px; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE — Small mobile (≤ 480px)
+═══════════════════════════════════════════════════════════ */
+@media (max-width: 480px) {
+  .ig-profile-row { gap: 1rem; }
+  .ig-story-ring { width: 66px; height: 66px; }
+  .ig-stats-row { gap: 1rem; }
+  .ig-stat-number { font-size: 0.95rem; }
+
+  .ig-action-row { flex-wrap: wrap; }
+  .ig-btn { min-width: calc(45% - 0.4rem); }
+
+  .ig-hl-circle { width: 42px; height: 42px; }
+  .ig-hl-label { font-size: 0.58rem; }
+
+  .dev-character-area { width: 90%; }
+}
