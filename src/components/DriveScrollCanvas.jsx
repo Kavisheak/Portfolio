@@ -36,19 +36,13 @@ function drawImageCover(ctx, img, width, height, frameIdx) {
     drawH = width / imgRatio;
     offsetX = 0;
     offsetY = (height - drawH) * 0.5;
-  } else if (canvasRatio < 0.85) {
-    // Portrait mobile: fit 66% of viewport height so the man & car aren't over-cropped,
-    // and center directly on the subject's horizontal position.
-    drawH = Math.max(height * 0.66, width / imgRatio);
-    drawW = drawH * imgRatio;
-    const focusX = getSubjectFocusX(frameIdx);
-    const rawX = width * 0.5 - drawW * focusX;
-    offsetX = Math.max(width - drawW, Math.min(0, rawX));
-    offsetY = (height - drawH) * 0.48;
   } else {
+    // Full height on both desktop & mobile, horizontally centered on the subject
     drawH = height;
     drawW = height * imgRatio;
-    offsetX = (width - drawW) * 0.5;
+    const focusX = canvasRatio < 1 ? getSubjectFocusX(frameIdx) : 0.5;
+    const rawX = width * 0.5 - drawW * focusX;
+    offsetX = Math.max(width - drawW, Math.min(0, rawX));
     offsetY = 0;
   }
 

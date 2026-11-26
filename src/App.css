@@ -1094,12 +1094,10 @@
     pointer-events: none;
     background: linear-gradient(
       to bottom,
-      #000000 0%,
-      rgba(0, 0, 0, 0.72) 14%,
-      transparent 28%,
-      transparent 72%,
-      rgba(0, 0, 0, 0.78) 87%,
-      #000000 100%
+      rgba(0, 0, 0, 0.45) 0%,
+      transparent 16%,
+      transparent 82%,
+      rgba(0, 0, 0, 0.55) 100%
     );
   }
 }
